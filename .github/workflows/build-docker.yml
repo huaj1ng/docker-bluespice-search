@@ -40,17 +40,23 @@ jobs:
         push: false
         tags: bluespice-search:${{ inputs.tag }}-arm64
         outputs: type=docker,dest=/tmp/bluespice-search-arm64.tar
+
+    - name: Compress AMD64 image
+      run: gzip /tmp/bluespice-search-amd64.tar
+        
+    - name: Compress ARM64 image
+      run: gzip /tmp/bluespice-search-arm64.tar
         
     - name: Upload AMD64 image artifact
       uses: actions/upload-artifact@v4
       with:
         name: bluespice-search-amd64-${{ inputs.tag }}
-        path: /tmp/bluespice-search-amd64.tar
+        path: /tmp/bluespice-search-amd64.tar.gz
         retention-days: 30
         
     - name: Upload ARM64 image artifact
       uses: actions/upload-artifact@v4
       with:
         name: bluespice-search-arm64-${{ inputs.tag }}
-        path: /tmp/bluespice-search-arm64.tar
+        path: /tmp/bluespice-search-arm64.tar.gz
         retention-days: 30
